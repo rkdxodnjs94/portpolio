@@ -25,7 +25,7 @@
 <br>
 
 ## 3. ERD 설계
-![](???)
+![](https://raw.githubusercontent.com/rkdxodnjs94/image/main/gachinolja%20ERD.png)
 
 ## 4. 핵심 기능
 이 서비스의 핵심 기능은 예약기능입니다.
