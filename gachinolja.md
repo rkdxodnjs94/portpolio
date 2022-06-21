@@ -12,7 +12,7 @@
 
 ## 2. 사용 기술
 #### `Back-end`
-  - Node.js ^16.1.5
+  - Node.js v16.1.5
   - MongoDB v4.6.0
   - Mongoose v6.3.3
   - Koa
