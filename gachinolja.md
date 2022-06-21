@@ -12,14 +12,15 @@
 
 ## 2. 사용 기술
 #### `Back-end`
-  - Node.js
-  - MongoDB
-  - Mongoose
+  - Node.js ^16.1.5
+  - MongoDB v4.6.0
+  - Mongoose v6.3.3
   - Koa
+  - Joi
   - Selenium
 
 #### `Front-end`
-  - React.js 
+  - React.js v18.1.0
   - BootStrap v5.1.3
 
 <br>
