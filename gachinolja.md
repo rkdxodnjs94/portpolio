@@ -49,17 +49,17 @@
 - **Axios 비동기 요청** :pushpin: [코드 확인](https://github.com/rkdxodnjs94/gachinolja/blob/frontend/frontend/src/pages/SignUp.js)
   - URL의 모양새인 경우, 컨텐츠를 등록하는 POST 요청을 비동기로 날립니다.
 
-### 4.3. Controller
+### 4.3. mongoose & Service
 
-![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_controller.png)
+![](https://raw.githubusercontent.com/rkdxodnjs94/image/main/flow2.png)
 
-- **요청 처리** :pushpin: [코드 확인](https://github.com/Integerous/goQuality/blob/b2c5e60761b6308f14eebe98ccdb1949de6c4b99/src/main/java/goQuality/integerous/controller/PostRestController.java#L55)
-  - Controller에서는 요청을 화면단에서 넘어온 요청을 받고, Service 계층에 로직 처리를 위임합니다.
+- **mongoose** :pushpin: [코드 확인](https://github.com/rkdxodnjs94/gachiback/blob/main/src/models/user.js)
+  - mongoose에서 schema 모델을 생성합니다.
 
-- **결과 응답** :pushpin: [코드 확인]()
-  - Service 계층에서 넘어온 로직 처리 결과(메세지)를 화면단에 응답해줍니다.
+- **index** :pushpin: [코드 확인](https://github.com/rkdxodnjs94/gachiback/blob/main/src/api/user/index.js)
+  - 그 모델을 토대로 app의 index에서 url을 통해 요청합니다.
 
-### 4.4. Service
+### 4.4. Controller
 
 ![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_service1.png)
 
