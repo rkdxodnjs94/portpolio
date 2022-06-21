@@ -19,8 +19,8 @@
   - Selenium
 
 #### `Front-end`
-  - React.js
-  - BootStrap
+  - React.js 
+  - BootStrap v5.1.3
 
 <br>
 
