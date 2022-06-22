@@ -343,10 +343,10 @@ module.exports = function(app) {
 </details>  
     
 <details>
-<summary> H2 접속문제</summary>
+<summary>회원가입 중복확인시 state 미반영 오류</summary>
 <div markdown="1">
   
-  - H2의 JDBC URL이 jdbc:h2:~/test 으로 되어있으면 jdbc:h2:mem:testdb 으로 변경해서 접속해야 한다.
+  - 중복확인 버튼을 만들어 state 데이터값을 
         
 </div>
 </details> 
