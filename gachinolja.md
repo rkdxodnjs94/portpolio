@@ -83,10 +83,10 @@
 - 이 사이트의 매장이 약 150개 있는데, 각 매장에 맞는 날짜, 시간, 자리, 인원 데이터를 가져오고 싶었습니다.
 
 - 처음엔 전체 매장의 예약 데이터들을 전부 다 가져와서 각 매장에 맞게 가공하여 제공할 예정이었지만,
-모든 조건을 만족할 데이터를 뽑아오는게 쉽지 않았습니다.
+모든 조건을 만족할 데이터를 매장에 맞게 출력하는게 쉽지 않았습니다.
 
 <details>
-<summary><b>기존1 코드</b></summary>
+<summary><b>axios로 가져온 기존 코드</b></summary>
 <div markdown="1">
 
 ~~~react.js
@@ -118,7 +118,7 @@ axiosdata();
 - 기존 redux로 이용한 state 자료입니다.
 
 <details>
-<summary><b>기존2 코드</b></summary>
+<summary><b>기존 redux 코드</b></summary>
 <div markdown="1">
 
 ~~~react.js
@@ -168,35 +168,79 @@ export default SaveReserve;
 </div>
 </details>
 
-- 이 때 카테고리(tag)로 게시물을 필터링 하는 경우,  
-각 게시물은 최대 3개까지의 카테고리(tag)를 가질 수 있어 해당 카테고리를 포함하는 모든 게시물을 질의해야 했기 때문에  
-- 아래 **개선된 코드**와 같이 QueryDSL을 사용하여 다소 복잡한 Query를 작성하면서도 페이징 처리를 할 수 있었습니다.
+- 아래 개선된 코드같이, axios로 get 요청할 때 전부 가져오지 말고, 
+[query string을 이용하여](https://velog.io/@bang9dev/axios-with-qs) 그 매장에 맞는 데이터만 갖고 온 다음,
+날짜에 맞게 잘 가공하여 보여주는 로직을 짰습니다.
 
 <details>
-<summary><b>개선된 코드</b></summary>
+<summary><b>개선된 axios 코드</b></summary>
 <div markdown="1">
 
-~~~java
-/**
- * 게시물 필터 (Tag Name)
- */
-@Override
-public Page<Post> findAllByTagName(String tagName, Pageable pageable) {
+~~~react.js
+useEffect(() => {
+    async function axiosdata(){
+      try {
+        const response = await axios.get('/api/reserve/place',{
+          params : {place : revdata[id-1].name}
+        });
+        for ( let i=0; i<response?.data.length; i++) {
+          dispatch(setSaveArg(response?.data[i].arrage));
+          dispatch(setSavePbID(response?.data[i].publisherID));
+          dispatch(setSaveDate(moment(response?.data[i].date).format('YYYY년 MM월 DD일')));
+        }
+        dispatch(setArray());
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    axiosdata();
+    return () => {
+      dispatch(clear());
+    }
+  },[dispatch]);
+~~~
 
-    QueryResults<Post> results = queryFactory
-            .selectFrom(post)
-            .innerJoin(postTag)
-                .on(post.idx.eq(postTag.post.idx))
-            .innerJoin(tag)
-                .on(tag.idx.eq(postTag.tag.idx))
-            .where(tag.name.eq(tagName))
-            .orderBy(post.idx.desc())
-                .limit(pageable.getPageSize())
-                .offset(pageable.getOffset())
-            .fetchResults();
+</div>
+</details>
+  
+<details>
+<summary><b>개선된 redux 코드</b></summary>
+<div markdown="1">
 
-    return new PageImpl<>(results.getResults(), pageable, results.getTotal());
-}
+~~~react.js
+// 자리 데이터를 저장하는 state입니다.
+// 초기 state : []
+// 수정 state : [1,2,...]
+import { createSlice } from "@reduxjs/toolkit";
+const initialState = [];
+const SaveReserve = createSlice({
+  name : 'savereserve',
+  initialState,
+  reducers : {
+    setSaveArg(state, action){
+      state.push(action.payload);
+    },
+    setSavePbID(state, action){
+      state.push(action.payload);
+    },
+    setSaveDate(state, action){
+      state.push(action.payload);
+    },
+    setArray(state, action){
+      const result = [];
+      for (let i=0; i<state.length; i+=3){
+        result.push(state.slice(i, i+3));
+      }
+      return result;
+    },
+    clear : () => initialState
+  }
+});
+
+export const { clear, setSaveArg, setSavePbID, setSaveDate } = SaveReserve.actions;
+export const { clear, setSaveArg, setSavePbID, setSaveDate, setArray } = SaveReserve.actions;
+
+export default SaveReserve; 
 ~~~
 
 </div>
