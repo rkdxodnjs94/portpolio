@@ -345,8 +345,10 @@ module.exports = function(app) {
 <details>
 <summary>회원가입 중복확인시 state 미반영 오류</summary>
 <div markdown="1">
-  
-  - 중복확인 버튼을 만들어 state 데이터값을 
+  - onChange에 state값의 길이를 측정하려 해도 제대로 반영이 안됐습니다.
+  - 해결
+    - 중복확인 버튼을 만들어 state 데이터값과 axios 데이터값이 일치하도록 로직 구현
+    - [https://github.com/rkdxodnjs94/gachinolja/blob/frontend/frontend/src/pages/SignUp.js](https://github.com/rkdxodnjs94/gachinolja/blob/frontend/frontend/src/pages/SignUp.js)
         
 </div>
 </details> 
