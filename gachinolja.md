@@ -332,13 +332,12 @@ module.exports = function(app) {
 </details>    
 
 <details>
-<summary> JSON: Infinite recursion (StackOverflowError)</summary>
+<summary> Google 소셜로그인 구현</summary>
 <div markdown="1">
   
-  - @JsonIgnoreProperties 사용으로 해결
+  - 유튜브 영상을 참고하여 해결
     - 참고
-        - [http://springquay.blogspot.com/2016/01/new-approach-to-solve-json-recursive.html](http://springquay.blogspot.com/2016/01/new-approach-to-solve-json-recursive.html)
-        - [https://stackoverflow.com/questions/3325387/infinite-recursion-with-jackson-json-and-hibernate-jpa-issue](https://stackoverflow.com/questions/3325387/infinite-recursion-with-jackson-json-and-hibernate-jpa-issue)
+      - [https://www.youtube.com/watch?v=roxC8SMs7HU](https://www.youtube.com/watch?v=roxC8SMs7HU)
         
 </div>
 </details>  
