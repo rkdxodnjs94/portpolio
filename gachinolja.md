@@ -83,10 +83,7 @@
 - 이 사이트의 매장이 약 150개 있는데, 각 매장에 맞는 날짜, 시간, 자리, 인원 데이터를 가져오고 싶었습니다.
 
 - 처음엔 전체 매장의 예약 데이터들을 전부 다 가져와서 각 매장에 맞게 가공하여 제공할 예정이었지만,
-모든 조건을 만족할 데이터를 뽑아오는게 쉽지 않았습니다. **기존1 코드**
-
-- 그런데 게시물이 필터링 된 상태에서 무한 스크롤이 동작하면,  
-필터링 된 게시물들만 DB에 요청해야 하기 때문에 아래의 처럼 각 필터별로 다른 Query를 날려야 했습니다.
+모든 조건을 만족할 데이터를 뽑아오는게 쉽지 않았습니다.
 
 <details>
 <summary><b>기존1 코드</b></summary>
@@ -113,6 +110,59 @@ useEffect(() => {
   axiosdata();
 axiosdata();
 },[dispatch])
+~~~
+
+</div>
+</details>
+
+- 기존 redux로 이용한 state 자료입니다.
+
+<details>
+<summary><b>기존2 코드</b></summary>
+<div markdown="1">
+
+~~~react.js
+// 자리 데이터를 저장하는 state입니다.
+// 초기 state : [ [] ]
+// 수정 state : [ ['강남점',1,2,3,...],['홍대점',1,2,3,...], [...] ]
+// 초기 state : []
+// 수정 state : [ ['강남점',1,2,3..],['홍대점',1,2,3,...], ]
+import { createSlice } from "@reduxjs/toolkit";
+
+const SaveReserve = createSlice({
+  name : 'savereserve',
+  initialState : [
+    []
+  ],
+  initialState : [],
+  reducers : {
+    setSaveReserve(state, action){
+      if (action.payload !== Number){ 
+        const setplace = [[...state],[action.payload]];
+        return setplace.filter(function(item, idx){
+          return setplace.indexOf(item) === idx;
+        })
+      } else if(action.payload === Number){
+        const setarrage = [[...state,action.payload]];
+        return setarrage.filter(function(item, idx){
+          return setarrage.indexOf(item) === idx;
+        })
+      }
+    setSavePlace(state, action){
+      const arr = new Array(state.length).fill(state);
+      arr.push(action.payload);
+    },
+    setSaveArg(state, action){
+      const arr = new Array(state.length).fill(state);
+      arr.push(action.payload);
+    }
+  }
+});
+
+export const { setSaveReserve } = SaveReserve.actions;
+export const { setSavePlace, setSaveArg } = SaveReserve.actions;
+
+export default SaveReserve; 
 ~~~
 
 </div>
