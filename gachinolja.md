@@ -250,11 +250,31 @@ export default SaveReserve;
 
 ## 6. 그 외 트러블 슈팅
 <details>
-<summary>npm run dev 실행 오류</summary>
+<summary>예약할 시 자리 실시간 미반영 오류</summary>
 <div markdown="1">
 
-- Webpack-dev-server 버전을 3.0.0으로 다운그레이드로 해결
-- `$ npm install —save-dev webpack-dev-server@3.0.0`
+- 부모 컴포넌트에 useState 요소들을 설정 후, 예약버튼에 state를 변경하게 만든 다음<br>
+  useEffect에 그 요소를 반영
+~~~react.js
+useEffect(() => {
+    async function axiosdata(){
+      try {
+        const response = await axios.get('/api/reserve/place',{
+          params : {place : revdata[id-1].name}
+        });
+        for ( let i=0; i<response?.data.length; i++) {
+          dispatch(setSaveArg(response?.data[i].arrage));
+          dispatch(setSavePbID(response?.data[i].publisherID));
+          dispatch(setSaveDate(moment(response?.data[i].date).format('YYYY년 MM월 DD일')));
+        }
+        dispatch(setArray());
+      } catch (error) {
+        console.log(error);
+      }
+    }
+},[dispatch, props.render]);
+  
+~~~
 
 </div>
 </details>
