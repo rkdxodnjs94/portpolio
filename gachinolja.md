@@ -280,68 +280,53 @@ useEffect(() => {
 </details>
 
 <details>
-<summary>vue-devtools 크롬익스텐션 인식 오류 문제</summary>
+<summary>이미 예약된 자리 있을 때 예약 못하게 하기</summary>
 <div markdown="1">
   
-  - main.js 파일에 `Vue.config.devtools = true` 추가로 해결
-  - [https://github.com/vuejs/vue-devtools/issues/190](https://github.com/vuejs/vue-devtools/issues/190)
+  - ArragePlace.js에서 includes 함수를 사용하여 해결
+  - [https://github.com/rkdxodnjs94/gachinolja/blob/frontend/frontend/src/components/Reserve/ArragePlace.js](https://github.com/rkdxodnjs94/gachinolja/blob/frontend/frontend/src/components/Reserve/ArragePlace.js)
   
 </div>
 </details>
 
 <details>
-<summary>ElementUI input 박스에서 `v-on:keyup.enter="메소드명"`이 정상 작동 안하는 문제</summary>
+<summary>BoardGame메뉴에서 원래대로 메뉴 구현</summary>
 <div markdown="1">
   
-  - `v-on:keyup.enter.native=""` 와 같이 .native 추가로 해결
-  
-</div>
-</details>
-
-<details>
-<summary> Post 목록 출력시에 Member 객체 출력 에러 </summary>
-<div markdown="1">
-  
-  - 에러 메세지(500에러)
-    - No serializer found for class org.hibernate.proxy.pojo.javassist.JavassistLazyInitializer and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationConfig.SerializationFeature.FAIL_ON_EMPTY_BEANS)
-  - 해결
-    - Post 엔티티에 @ManyToOne 연관관계 매핑을 LAZY 옵션에서 기본(EAGER)옵션으로 수정
+  - `setMinFilter('')` 와 같이 state값을 빈 값으로 변경하기
   
 </div>
 </details>
     
 <details>
-<summary> 프로젝트를 git init으로 생성 후 발생하는 npm run dev/build 오류 문제 </summary>
+<summary> proxy를 여러 경로로 만들고 싶을 때 </summary>
 <div markdown="1">
   
-  ```jsx
-    $ npm run dev
-    npm ERR! path C:\Users\integer\IdeaProjects\pilot\package.json
-    npm ERR! code ENOENT
-    npm ERR! errno -4058
-    npm ERR! syscall open
-    npm ERR! enoent ENOENT: no such file or directory, open 'C:\Users\integer\IdeaProjects\pilot\package.json'
-    npm ERR! enoent This is related to npm not being able to find a file.
-    npm ERR! enoent
-
-    npm ERR! A complete log of this run can be found in:
-    npm ERR!     C:\Users\integer\AppData\Roaming\npm-cache\_logs\2019-02-25T01_23_19_131Z-debug.log
-  ```
+ ~~~react.js
+const {createProxyMiddleware} = require('http-proxy-middleware');``
+module.exports = function(app) {
+    app.use('/api/',
+    createProxyMiddleware( 
+        { target: 'http://localhost:4001/', changeOrigin: true }
+    ));
+    app.use('/v1/nid/me',
+    createProxyMiddleware(
+        { target: "https://openapi.naver.com/", changeOrigin: true}
+    ));
+}
+~~~
   
-  - 단순히 npm run dev/build 명령을 입력한 경로가 문제였다.
+  - setupProxy.js에 모듈화하여 여러 경로를 설정할 수 있었습니다.
    
 </div>
 </details>    
 
 <details>
-<summary> 태그 선택후 등록하기 누를 때 `object references an unsaved transient instance - save the transient instance before flushing` 오류</summary>
+<summary> 모집완료 누를 때, 신청인원 미반영 오류</summary>
 <div markdown="1">
   
-  - Post 엔티티의 @ManyToMany에 영속성 전이(cascade=CascadeType.ALL) 추가
-    - JPA에서 Entity를 저장할 때 연관된 모든 Entity는 영속상태여야 한다.
-    - CascadeType.PERSIST 옵션으로 부모와 자식 Enitity를 한 번에 영속화할 수 있다.
-    - 참고
-        - [https://stackoverflow.com/questions/2302802/object-references-an-unsaved-transient-instance-save-the-transient-instance-be/10680218](https://stackoverflow.com/questions/2302802/object-references-an-unsaved-transient-instance-save-the-transient-instance-be/10680218)
+  - useEffect에 [setData]를 추가하여 axios 데이터가 변경될 때마다 useEffect를 적용하게 설정했습니다.
+    - [https://github.com/rkdxodnjs94/gachinolja/blob/frontend/frontend/src/pages/Party/ReadParty.js](https://github.com/rkdxodnjs94/gachinolja/blob/frontend/frontend/src/pages/Party/ReadParty.js)
    
 </div>
 </details>    
