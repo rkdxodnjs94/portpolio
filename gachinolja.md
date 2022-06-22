@@ -79,61 +79,40 @@
 </br>
 
 ## 5. 핵심 트러블 슈팅
-### 5.1. 컨텐츠 필터와 페이징 처리 문제
-- 저는 이 서비스가 페이스북이나 인스타그램 처럼 가볍게, 자주 사용되길 바라는 마음으로 개발했습니다.  
-때문에 페이징 처리도 무한 스크롤을 적용했습니다.
+### 5.1. 매장마다 다른 데이터 가져오는 법
+- 이 사이트의 매장이 약 150개 있는데, 각 매장에 맞는 날짜, 시간, 자리, 인원 데이터를 가져오고 싶었습니다.
 
-- 하지만 [무한스크롤, 페이징 혹은 “더보기” 버튼? 어떤 걸 써야할까](https://cyberx.tistory.com/82) 라는 글을 읽고 무한 스크롤의 단점들을 알게 되었고,  
-다양한 기준(카테고리, 사용자, 등록일, 인기도)의 게시물 필터 기능을 넣어서 이를 보완하고자 했습니다.
+- 처음엔 전체 매장의 예약 데이터들을 전부 다 가져와서 각 매장에 맞게 가공하여 제공할 예정이었지만,
+모든 조건을 만족할 데이터를 뽑아오는게 쉽지 않았습니다. **기존1 코드**
 
 - 그런데 게시물이 필터링 된 상태에서 무한 스크롤이 동작하면,  
-필터링 된 게시물들만 DB에 요청해야 하기 때문에 아래의 **기존 코드** 처럼 각 필터별로 다른 Query를 날려야 했습니다.
+필터링 된 게시물들만 DB에 요청해야 하기 때문에 아래의 처럼 각 필터별로 다른 Query를 날려야 했습니다.
 
 <details>
-<summary><b>기존 코드</b></summary>
+<summary><b>기존1 코드</b></summary>
 <div markdown="1">
 
-~~~java
-/**
- * 게시물 Top10 (기준: 댓글 수 + 좋아요 수)
- * @return 인기순 상위 10개 게시물
- */
-public Page<PostResponseDto> listTopTen() {
-
-    PageRequest pageRequest = PageRequest.of(0, 10, Sort.Direction.DESC, "rankPoint", "likeCnt");
-    return postRepository.findAll(pageRequest).map(PostResponseDto::new);
-}
-
-/**
- * 게시물 필터 (Tag Name)
- * @param tagName 게시물 박스에서 클릭한 태그 이름
- * @param pageable 페이징 처리를 위한 객체
- * @return 해당 태그가 포함된 게시물 목록
- */
-public Page<PostResponseDto> listFilteredByTagName(String tagName, Pageable pageable) {
-
-    return postRepository.findAllByTagName(tagName, pageable).map(PostResponseDto::new);
-}
-
-// ... 게시물 필터 (Member) 생략 
-
-/**
- * 게시물 필터 (Date)
- * @param createdDate 게시물 박스에서 클릭한 날짜
- * @return 해당 날짜에 등록된 게시물 목록
- */
-public List<PostResponseDto> listFilteredByDate(String createdDate) {
-
-    // 등록일 00시부터 24시까지
-    LocalDateTime start = LocalDateTime.of(LocalDate.parse(createdDate), LocalTime.MIN);
-    LocalDateTime end = LocalDateTime.of(LocalDate.parse(createdDate), LocalTime.MAX);
-
-    return postRepository
-                    .findAllByCreatedAtBetween(start, end)
-                    .stream()
-                    .map(PostResponseDto::new)
-                    .collect(Collectors.toList());
+~~~react
+useEffect(() => {
+  async function axiosdata(){
+    try {
+      const response = await axios.get('/api/reserve');
+      for (var i=0; i<2600; i++) {
+        dispatch(setPlace(response.data[i].place));
+      for (var i=0; i < response.data.length; i++) {
+        dispatch(setSaveReserve(response.data[i].place));
+        dispatch(setSaveReserve(response.data[i].arrage[0].arrage));
+        console.log(response);
+      }
+      };
+      console.log(response);
+    } catch (error) {
+      console.log(error);
     }
+  }
+  axiosdata();
+axiosdata();
+},[dispatch])
 ~~~
 
 </div>
