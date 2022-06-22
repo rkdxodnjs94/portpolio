@@ -377,7 +377,7 @@ module.exports = function(app) {
 
   - 해결
     - 초기 state를 false로 설정하고, 변경 state값은 true 또는 false로 변경하여 <br>
-  이벤트 발생할때마다 `dispatch(setLogin(false))`변경state를 작성했습니다. 
+  이벤트 발생할때마다 `dispatch(setLogin(false))`같이 변경state를 작성했습니다. 
         
 </div>
 </details> 
