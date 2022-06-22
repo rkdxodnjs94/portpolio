@@ -357,13 +357,13 @@ module.exports = function(app) {
 </details> 
     
 <details>
-<summary> 컨텐츠수정 모달창에서 태그 셀렉트박스 드랍다운이 뒤쪽에 보이는 문제</summary>
+<summary> state변경시 조회수 null 오류</summary>
 <div markdown="1">
   
-   - ElementUI의 Global Config에 옵션 추가하면 해결
-     - main.js 파일에 `Vue.us(ElementUI, { zIndex: 9999 });` 옵션 추가(9999 이하면 안됌)
-   - 참고
-     - [https://element.eleme.io/#/en-US/component/quickstart#global-config](https://element.eleme.io/#/en-US/component/quickstart#global-config)
+   - Schema에 type유형을 Number에서 String으로 변경하고, default값을 '0'으로 변경하고,<br>
+   axios의 patch 요청할 때, String을 Number로 변환한 상태에서 +1 하여 변경된 데이터 반영합니다.
+     - [Schema 링크](
+     - [axios 링크](https://github.com/rkdxodnjs94/gachinolja/blob/frontend/frontend/src/pages/Inquiry/NoticeDetail.js)
         
 </div>
 </details> 
