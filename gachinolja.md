@@ -92,7 +92,7 @@
 <summary><b>기존1 코드</b></summary>
 <div markdown="1">
 
-~~~react
+~~~react.js
 useEffect(() => {
   async function axiosdata(){
     try {
