@@ -369,18 +369,15 @@ module.exports = function(app) {
 </details> 
 
 <details>
-<summary> HTTP delete Request시 개발자도구의 XHR(XMLHttpRequest )에서 delete요청이 2번씩 찍히는 이유</summary>
+<summary> 로그인창을 껐다 킬 때 두 번 눌러야 나오는 현상</summary>
 <div markdown="1">
   
-  - When you try to send a XMLHttpRequest to a different domain than the page is hosted, you are violating the same-origin policy. However, this situation became somewhat common, many technics are introduced. CORS is one of them.
+  - 변경state를 !state로 하여 클릭할 때 자동으로 true, false로 변경되도록 설정을 했는데,<br>
+   다른 페이지를 이동할 때 로그인했음에도 로그인하라는 창이 뜨는 문제가 발생했습니다.
 
-        In short, server that you are sending the DELETE request allows cross domain requests. In the process, there should be a **preflight** call and that is the **HTTP OPTION** call.
-
-        So, you are having two responses for the **OPTION** and **DELETE** call.
-
-        see [MDN page for CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS).
-
-    - 출처 : [https://stackoverflow.com/questions/35808655/why-do-i-get-back-2-responses-of-200-and-204-when-using-an-ajax-call-to-delete-o](https://stackoverflow.com/questions/35808655/why-do-i-get-back-2-responses-of-200-and-204-when-using-an-ajax-call-to-delete-o)
+  - 해결
+    - 초기 state를 false로 설정하고, 변경 state값은 true 또는 false로 변경하여 <br>
+  이벤트 발생할때마다 `dispatch(setLogin(false))`변경state를 작성했습니다. 
         
 </div>
 </details> 
