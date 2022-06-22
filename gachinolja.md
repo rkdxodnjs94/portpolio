@@ -301,7 +301,7 @@ useEffect(() => {
 <details>
 <summary> proxy를 여러 경로로 만들고 싶을 때 </summary>
 <div markdown="1">
-  
+- setupProxy.js에 모듈화하여 여러 경로를 설정할 수 있었습니다.
  ~~~react.js
 const {createProxyMiddleware} = require('http-proxy-middleware');``
 module.exports = function(app) {
@@ -315,8 +315,6 @@ module.exports = function(app) {
     ));
 }
 ~~~
-  
-  - setupProxy.js에 모듈화하여 여러 경로를 설정할 수 있었습니다.
    
 </div>
 </details>    
