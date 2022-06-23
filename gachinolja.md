@@ -1,6 +1,7 @@
 # 📌  같이놀자
 > 보드게임카페 예약서비스
-> AWS 링크
+> [프론트엔드](https://github.com/rkdxodnjs94/gachinolja.git)
+> [백엔드](https://github.com/rkdxodnjs94/gachiback.git)
 
 <br>
 
